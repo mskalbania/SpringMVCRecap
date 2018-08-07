@@ -16,7 +16,7 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
         return new Class[]{MvcWebConfig.class};
     }
 
-    //Mapped root path
+    //Mapped dispatcher servlet path
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
