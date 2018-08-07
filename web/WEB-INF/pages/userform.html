@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">User Example</h1>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <form th:action="@{/webapp/processUser}" th:object="${user}" method="post">
+                <div class="form-group">
+                    <label for="u-name">Username:</label>
+                    <input id="u-name" class="form-control" placeholder="User Name" th:field="*{userName}"
+                           type="text"/>
+                    <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Password:</label>
+                    <input id="pass" class="form-control" placeholder="Password" th:field="*{password}"
+                           type="password"/>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" class="form-control" th:field="*{role}">
+                        <option th:each="role : ${T(edu.mvc.model.User.Role).values()}"
+                                th:value="${role}" th:text="${role}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <ul id="gender">
+                        <li th:each="gender : ${T(edu.mvc.model.User.Gender).values()}">
+                            <label th:for="${gender}"  th:text="${gender}"></label>
+                            <input th:id="${gender}" type="radio" th:field="*{gender}" th:value="${gender}">
+                        </li>
+                    </ul>
+                </div>
+                <button class="btn btn-success" type="submit" name="POST">Sign in</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+</body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</html>
