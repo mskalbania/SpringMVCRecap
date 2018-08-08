@@ -1,5 +1,6 @@
 package edu.mvc.config;
 
+import edu.mvc.controller.ControllerScanMarker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("edu.mvc.controller")
+@ComponentScan(basePackageClasses = ControllerScanMarker.class)  //Using classes markers provides type safe component scanning
 public class MvcWebConfig implements WebMvcConfigurer {
 
     private ApplicationContext applicationContext;

@@ -13,12 +13,17 @@
                     <label for="u-name">Username:</label>
                     <input id="u-name" class="form-control" placeholder="User Name" th:field="*{userName}"
                            type="text"/>
-                    <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+                    <div th:if="${#fields.hasErrors('userName')}" class="alert alert-danger" role="alert">
+                        <span th:errors="*{userName}"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="pass">Password:</label>
                     <input id="pass" class="form-control" placeholder="Password" th:field="*{password}"
                            type="password"/>
+                    <div th:if="${#fields.hasErrors('password')}" class="alert alert-danger" role="alert">
+                        <span th:errors="*{password}"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="role">Role:</label>
@@ -26,15 +31,21 @@
                         <option th:each="role : ${T(edu.mvc.model.User.Role).values()}"
                                 th:value="${role}" th:text="${role}"></option>
                     </select>
+                    <div th:if="${#fields.hasErrors('role')}" class="alert alert-danger" role="alert">
+                        <span th:errors="*{role}"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender:</label>
                     <ul id="gender">
                         <li th:each="gender : ${T(edu.mvc.model.User.Gender).values()}">
-                            <label th:for="${gender}"  th:text="${gender}"></label>
+                            <label th:for="${gender}" th:text="${gender}"></label>
                             <input th:id="${gender}" type="radio" th:field="*{gender}" th:value="${gender}">
                         </li>
                     </ul>
+                    <div th:if="${#fields.hasErrors('gender')}" class="alert alert-danger" role="alert">
+                        <span th:errors="*{gender}"></span>
+                    </div>
                 </div>
                 <button class="btn btn-success" type="submit" name="POST">Sign in</button>
             </form>
