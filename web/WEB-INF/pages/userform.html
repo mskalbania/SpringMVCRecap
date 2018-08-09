@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label for="pass">Password:</label>
                     <input id="pass" class="form-control" placeholder="Password" th:field="*{password}" type="password"
-                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : 'is-valid'"/>
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"/>
                     <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
                         <span th:errors="*{password}"></span>
                     </div>
@@ -37,9 +37,6 @@
                         <option th:each="role : ${T(edu.mvc.model.User.Role).values()}"
                                 th:value="${role}" th:text="${role}"></option>
                     </select>
-                    <div th:if="${#fields.hasErrors('role')}" class="invalid-feedback">
-                        <span th:errors="*{role}"></span>
-                    </div>
                 </div>
                 <!----------------->
                 <!--Gender field-->
@@ -48,11 +45,8 @@
                     <div id="genderRadio" class="form-check">
                         <div th:each="gender : ${T(edu.mvc.model.User.Gender).values()}">
                             <input class="form-check-input" type="radio" th:field="*{gender}" th:id="${gender}" th:value="${gender}"
-                                   th:classappend="${#fields.hasErrors('gender')} ? 'is-invalid' : ''">/>
+                                   th:classappend="${#fields.hasErrors('gender')} ? 'is-invalid' : ''">
                             <label class="form-check-label" th:for="${gender}" th:text="${gender}"></label>
-                        </div>
-                        <div th:if="${#fields.hasErrors('gender')}" class="invalid-feedback">
-                            <span th:errors="*{gender}"></span>
                         </div>
                     </div>
                 </div>
