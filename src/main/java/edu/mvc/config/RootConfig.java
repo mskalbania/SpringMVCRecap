@@ -8,7 +8,7 @@ import org.springframework.context.annotation.*;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 @Configuration
-@Import(AmbiguousBeansConfig.class)
+@Import(TestBeansConfig.class)
 public class RootConfig {
 
     //Additional beans are defined here
