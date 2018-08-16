@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">My Postman</h1>
+    <form id="request-form">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <input id="end-point" type="text" class="form-control" placeholder="ENDPOINT">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <input id="method" type="text" class="form-control" placeholder="METHOD">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <textarea class="form-control" id="json" rows="3" placeholder="JSON"></textarea>
+        </div>
+        <div class="row">
+            <button type="submit" id="send" class="btn btn-primary btn-block mt-2">SEND</button>
+        </div>
+    </form>
+    <div class="row d-flex justify-content-center mt-1">
+        <div th:insert="back"></div>
+    </div>
+    <div class="row mt-2">
+        <h3>Response: </h3>
+    </div>
+    <div class="row mt-1">
+        <h4 id="code"></h4>
+    </div>
+    <div class="row mt-1">
+        <h4 id="body"></h4>
+    </div>
+</div>
+</body>
+<script src="//code.jquery.com/jquery-2.1.0.js"></script>
+<script>
+    $(document).ready(function () {
+
+            $("#request-form").submit(function (e) {
+                e.preventDefault();
+            });
+
+            $("#send").click(function () {
+                var method = $("#method").val();
+                var endpoint = $("#end-point").val();
+                var body = $("#json").val();
+                sendRequest(method, endpoint, body)
+            });
+
+            function sendRequest(method, endpoint, body) {
+                console.log("Requested params : " + method + " " + endpoint + " " + body);
+                $.ajax({
+                    url: endpoint,
+                    type: method.toLowerCase(),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: body
+                })
+                    .always(function (response) {
+                        console.log(response);
+                        $("#code").text("Code: " + response.status);
+                        $("#body").text(response.responseText);
+                    })
+            }
+        }
+    )
+</script>
+</html>
