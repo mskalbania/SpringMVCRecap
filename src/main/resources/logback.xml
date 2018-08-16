@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true">
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -13,11 +13,15 @@
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="edu.mvc" level="debug" additivity="false">
+    <logger name="org.hibernate" level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <root level="error">
+    <logger name="edu" level="debug" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>
 
