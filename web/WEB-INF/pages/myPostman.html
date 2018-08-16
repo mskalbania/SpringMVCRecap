@@ -50,6 +50,8 @@
             });
 
             $("#send").click(function () {
+                $("#code").text("Code: ");
+                $("#body").text("Body: ");
                 var method = $("#method").val();
                 var endpoint = $("#end-point").val();
                 var body = $("#json").val();
@@ -65,10 +67,15 @@
                     dataType: 'json',
                     data: body
                 })
-                    .always(function (response) {
+                    .done(function (response) {
+                        console.log(response);
+                        $("#code").text("Code: 200");
+                        $("#body").text("Body: \n" + JSON.stringify(response));
+                    })
+                    .fail(function (response) {
                         console.log(response);
                         $("#code").text("Code: " + response.status);
-                        $("#body").text(response.responseText);
+                        $("#body").text("Error: " + response.responseText);
                     })
             }
         }
