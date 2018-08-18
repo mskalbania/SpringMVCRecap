@@ -6,29 +6,39 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">My Postman</h1>
-    <form id="request-form">
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <input id="end-point" type="text" class="form-control" placeholder="ENDPOINT">
+    <div class="row justify-content-center">
+        <h1>My Postman</h1>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <form id="request-form">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input id="end-point" type="text" class="form-control" placeholder="ENDPOINT">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input id="method" type="text" class="form-control" placeholder="METHOD">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <input id="method" type="text" class="form-control" placeholder="METHOD">
+                <div class="row">
+                    <textarea class="form-control" id="json" rows="3" placeholder="JSON"></textarea>
                 </div>
+                <div class="row">
+                    <button type="submit" id="send" class="btn btn-primary btn-block mt-2">SEND</button>
+                </div>
+            </form>
+            <div class="row d-flex justify-content-center mt-1">
+                <div th:insert="back"></div>
             </div>
         </div>
-        <div class="row">
-            <textarea class="form-control" id="json" rows="3" placeholder="JSON"></textarea>
+        <div class="col-3">
+            <h4>History: </h4>
+            <div id="history"></div>
         </div>
-        <div class="row">
-            <button type="submit" id="send" class="btn btn-primary btn-block mt-2">SEND</button>
-        </div>
-    </form>
-    <div class="row d-flex justify-content-center mt-1">
-        <div th:insert="back"></div>
     </div>
     <div class="row mt-2">
         <h3>Response: </h3>
@@ -44,6 +54,7 @@
 <script src="//code.jquery.com/jquery-2.1.0.js"></script>
 <script>
     $(document).ready(function () {
+            var history = [];
 
             $("#request-form").submit(function (e) {
                 e.preventDefault();
@@ -55,8 +66,43 @@
                 var method = $("#method").val();
                 var endpoint = $("#end-point").val();
                 var body = $("#json").val();
-                sendRequest(method, endpoint, body)
+                sendRequest(method, endpoint, body);
+                addToHistory(method, endpoint, body);
+                renderHistory();
             });
+
+            function renderHistory() {
+                var historyHook = $("#history");
+                historyHook.empty();
+                for (i = 0; i < history.length; i++) {
+                    historyHook.append("<div id='pos-" + history[i].id + "' style='background-color: darkgray' class='history-pos row ml-1 mb-1'>" +
+                        "<div class='col-4'>" + history[i].method + "</div>" +
+                        "<div class='col-8'>" + history[i].url + "</div></div>");
+                }
+
+                $("div[id*='pos']").click(function (event) {
+                    var id = event.currentTarget.attributes[0].value;
+                    for (i = 0; i < history.length; i++) {
+                        var posId = "pos-" + history[i].id;
+                        if (posId === id) {
+                            $("#method").val(history[i].method);
+                            $("#end-point").val(history[i].url);
+                            $("#json").val(history[i].body);
+                        }
+                    }
+                });
+            }
+
+            function addToHistory(method, endpoint, body) {
+                for (i = 0; i < history.length; i++) {
+                    var methodOld = history[i].method;
+                    var urlOld = history[i].url;
+                    if (method === methodOld && endpoint === urlOld) {
+                        return;
+                    }
+                }
+                history.push({id: new Date().getMilliseconds(), method: method, url: endpoint, body: body})
+            }
 
             function sendRequest(method, endpoint, body) {
                 console.log("Requested params : " + method + " " + endpoint + " " + body);
